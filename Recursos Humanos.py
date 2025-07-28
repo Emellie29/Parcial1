@@ -16,10 +16,8 @@ while True:
                     departamento = input("Departamento dónde se desempeña el empleado: ")
                     antiguedad = int(input("Cuantos años de antiguedad tiene trabajando: "))
                     telefono=int(input("Ingrese el número de teléfono del empleado: "))
-                    correo=input("ingrese el correo electrónico del empleado: ")
+                    correo=input("Ingrese el correo electrónico del empleado: ")
                     print(f"Empleado registrado con exito.")
-                else:
-                    print("El empleado no existe")
                 empleados = {
                     "codigo": codigo,
                     "nombre": nombre,
