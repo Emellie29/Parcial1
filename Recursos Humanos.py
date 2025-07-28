@@ -67,7 +67,7 @@ while True:
                     "puntualidad": puntualidad,
                     "equipo": equipo,
                     "productividad": productividad,
-                    "observaciones": observaciones
+                    "observaciones": observaciones,
                     "promedio": promedio,
                     "estado": estado,
                 }
