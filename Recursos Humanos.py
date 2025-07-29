@@ -1,4 +1,54 @@
 empleados={}
+class Informacion:
+    def __init__(self, codigo, nombre, departamento, antiguedad, telefono, correo):
+        self.identidad = {
+            "codigo": codigo,
+            "nombre": nombre,
+            "departamento": departamento,
+            "antiguedad": antiguedad
+        }
+        self.contacto = {
+            "telefono": telefono,
+            "correo": correo
+        }
+class Evaluacion:
+    def __init__(self, puntualidad, equipo, productividad, observaciones):
+        promedio = (puntualidad + equipo + productividad) / 3
+        if 0 <= promedio <= 6:
+            estado = "Debe mejorar"
+        elif 7 <= promedio <= 10:
+            estado = "Satisfactorio"
+        else:
+            estado = "Valor fuera de rango"
+        self.datos={
+            "puntualidad": puntualidad,
+            "equipo": equipo,
+            "productividad": productividad,
+            "observaciones": observaciones,
+            "promedio": promedio,
+            "estado": estado
+        }
+class Empleado:
+    def __init__(self, info: Informacion):
+        self.identidad=info.identidad
+        self.contacto=info.contacto
+        self.evaluacion={}
+    def registrar(self, puntualidad,equipo,productividad,observaciones):
+        evaluacion=Evaluacion(puntualidad,equipo,productividad,observaciones)
+        self.evaluacion=evaluacion.datos
+    def mostrar(self):
+        print("Datos del Empleado")
+        for clave, valor in self.identidad.items():
+            print(f"{clave.capitalize()}: {valor}")
+        print("Contacto")
+        for clave, valor in self.contacto.items():
+            print(f"{clave.capitalize()}: {valor}")
+        print("Evaluacion")
+        if self.evaluacion:
+            for clave, valor in self.evaluacion.items():
+                print(f"{clave.capitalize()}: {valor}")
+        else:
+            print("Pendiente de Evaluar.")
 while True:
     print("Recursos Humanos")
     print("1. Ingresar empleado")
@@ -7,85 +57,39 @@ while True:
     print("4. Salir")
     opcion = input("Seleccione una opción: ")
     if opcion == "1":
-        class empleado():
-                cantidad = int(input("¿Cuantos empleados desea ingresar?: "))
-                for i in range(cantidad):
-                    print(f"\nEmpleado No.{i + 1}")
-                    codigo = input("Codigo de empleado: ")
-                    nombre = input("Nombre completo del empleado: ")
-                    departamento = input("Departamento dónde se desempeña el empleado: ")
-                    antiguedad = int(input("Cuantos años de antiguedad tiene trabajando: "))
-                    telefono=int(input("Ingrese el número de teléfono del empleado: "))
-                    correo=input("Ingrese el correo electrónico del empleado: ")
-                    print(f"Empleado registrado con exito.")
-                empleados = {
-                    "codigo": codigo,
-                    "nombre": nombre,
-                    "departamento": departamento,
-                    "antiguedad": antiguedad,
-                    "evaluacion":{},
-                    "contacto":{}
-                }
-                empleados["contacto"]: {
-                    "telefono": telefono,
-                    "correo": correo,
-                }
+        cantidad = int(input("¿Cuantos empleados desea ingresar?: "))
+        for i in range(cantidad):
+            print(f"\nEmpleado No.{i + 1}")
+            codigo = input("Código: ")
+            nombre = input("Nombre: ")
+            departamento = input("Departamento: ")
+            antiguedad = int(input("Años de antigüedad: "))
+            telefono = input("Teléfono: ")
+            correo = input("Correo electrónico: ")
+            info = Informacion(codigo, nombre, departamento, antiguedad, telefono, correo)
+            empleados[codigo] = Empleado(info)
+            print("Empleado registrado con exito.")
     elif opcion == "2":
-        class evaluacion():
-                print(f"Evaluacion del empleado")
-                codigo = input("Ingrese código que desea buscar: ")
-                if(codigo in empleados):
-                    empleado = empleados[codigo]
-                    print(f"Nombre: {empleado['nombre']}")
-                    print(f"Departamento: {empleado['departamento']}")
-                    print(f"Años de antiguedad: {empleado['antiguedad']}")
-                    print(f"Número de teléfono: {empleado['telefono']}")
-                    print(f"Correo electrónico: {empleado['correo']}")
-                    print(f"Ingrese la evaluacion del empleado.")
-                    puntualidad=int(input("Ingrese la puntualidad: "))
-                    for i in 0<=puntualidad<=10:
-                        print(f"Nota ingresada correctamente: {i}")
-                    equipo = int(input("Ingrese la puntualidad: "))
-                    for i in 0 <= equipo <= 10:
-                        print(f"Nota ingresada correctamente: {i}")
-                    productividad = int(input("Ingrese la puntualidad: "))
-                    for i in 0 <= productividad <= 10:
-                        print(f"Nota ingresada correctamente: {i}")
-                    observaciones =input("Ingrese las observaciones del empleado: ")
-                    promedio= puntualidad*equipo*productividad/3
-                    estado=print("El estado del empleado es: ")
-                    for i in 0 <= promedio <= 6:
-                        print(f"Debe mejorar")
-                    for i in 7 <= promedio <= 10:
-                        print(f"Satisfactorio")
-                else:
-                    print("El empleado no existe")
-                empleados["evaluacion"]: {
-                    "codigo": codigo,
-                    "puntualidad": puntualidad,
-                    "equipo": equipo,
-                    "productividad": productividad,
-                    "observaciones": observaciones,
-                    "promedio": promedio,
-                    "estado": estado,
-                }
+        codigo = input("Código del empleado: ")
+        emp = empleados.get(codigo)
+        if emp:
+            puntualidad = int(input("Puntualidad: "))
+            equipo = int(input("Trabajo en equipo: "))
+            productividad = int(input("Productividad: "))
+            observaciones = input("Observaciones: ")
+            emp.registrar(puntualidad, equipo, productividad, observaciones)
+            print("Evaluación guardada.")
+            print(f"Promedio: {emp.evaluacion['promedio']}")
+            print(f"Estado: {emp.evaluacion['estado']}")
+        else:
+            print("Empleado no encontrado.")
     elif opcion == "3":
-        class informacion():
-            print("Información del Empleado:")
-            for codigo, datos in empleados.items():
-                print(f"\nCodigo: {codigo}")
-                print(f"Nombre: {datos['nombre']}")
-                print(f"Departamento: {datos['departamento']}")
-                print(f"Antiguedad: {datos['antiguedad']}")
-                print(f"Puntualidad: {datos['evaluacion']['puntualidad']}")
-                print(f"Equipo: {datos['evaluacion']['equipo']}")
-                print(f"Productividad: {datos['evaluacion']['productividad']}")
-                print(f"Observaciones: {datos['evaluacion']['observaciones']}")
-                print(f"Promedio: {datos['evaluacion']['promedio']}")
-                print(f"Estado: {datos['evaluacion']['estado']}")
-                print(f"Teléfono: {datos['contacto']['telefono']}")
-                print(f"Correo: {datos['contacto']['correo']}")
+        for emp in empleados.values():
+            emp.mostrar()
+        if not empleados:
+            print("No hay empleados registrados.")
     elif opcion == "4":
         print("Cerrando Sesión.")
         break
-
+    else:
+        print("Opcion no valida, intente de nuevo.")
